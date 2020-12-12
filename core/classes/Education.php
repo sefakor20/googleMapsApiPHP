@@ -58,6 +58,15 @@ class Education
 
   }
 
+  // get all colleges with blank latitude and longitude
+  public function getAllColleges() {
+    $sql = $this->connection->prepare("SELECT * FROM $this->tableName");
+    $sql->execute();
+    return $colleges = $sql->fetchAll(PDO::FETCH_OBJ);
+
+  }
+
+
   
   // update lat and lng in DB
   public function updateCollegeWithLatLng() {

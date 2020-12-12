@@ -16,11 +16,49 @@ function loadMap() {
 
   // get colleges data
   var collegeData = JSON.parse(document.getElementById('data').innerHTML);
-
   // create geocoder object
   geocoder = new google.maps.Geocoder();
   codeAddress(collegeData);
 
+  
+  // all data with makers
+  var allData = JSON.parse(document.getElementById('allData').innerHTML);
+  showAllColleges(allData);
+
+}
+
+// show college location on map
+function showAllColleges(allData) {
+  // display info window of a marker
+  var infoWind = new google.maps.InfoWindow;
+
+  Array.prototype.forEach.call(allData, function(data){
+
+    // create dynamic element to display the info window
+    var content = document.createElement('div');
+    var strong = document.createElement('strong');
+    strong.textContent = data.name;
+    content.appendChild(strong);
+
+    // create an image on marker
+    var img = document.createElement('img');
+    img.src = 'img/leopard.jpeg';
+    img.style.width = '100px';
+    content.appendChild(img);
+
+     // display marker on location
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(data.lat, data.lng),
+      map: map
+    });
+
+    // show marker on an event (click, mouseover)
+    marker.addListener('mouseover', function(){
+      infoWind.setContent(content);
+      infoWind.open(map, marker);
+    })
+   
+  });
 }
 
 // get the lat and lng from the google maps api
